@@ -8,6 +8,7 @@ import type { RootState } from '../store/store';
 import { useLoginMutation } from '../api/authAPI';
 import { setCookie } from '../utils/cookes';
 import { setLogin } from '../store/slices/loginSlice';
+import {setToken} from '../store/slices/authSlice';
 
 
 import styles from "../layouts/AuthLayout.module.css";
@@ -44,6 +45,7 @@ export const Login = () => {
       setCookie('access_token', response.access_token, 3600);
 
       dispatch(setLogin(data.login));
+      dispatch(setToken(response.access_token));
 
       navigate(ROUTES.HOME);
     } catch (err) {

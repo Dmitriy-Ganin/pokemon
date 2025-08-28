@@ -8,6 +8,7 @@ import type { RootState } from '../store/store';
 import { setLogin } from '../store/slices/loginSlice';
 import { useRegisterMutation } from '../api/authAPI';
 import { setCookie } from '../utils/cookes';
+import { setToken } from '../store/slices/authSlice';
 
 import styles from "../layouts/AuthLayout.module.css";
 
@@ -19,7 +20,7 @@ const registerSchema = z.object({
   message: "Passwords must match",
   path: ["passwordConfirmation"],
 });
-
+  
 type RegisterSchema = z.infer<typeof registerSchema>;
 
 export const Register = () => {
@@ -56,7 +57,7 @@ export const Register = () => {
       }).unwrap();
 
       setCookie('access_token', response.access_token, 3600);
-
+      dispatch(setToken(response.access_token));
       navigate(ROUTES.HOME);
     } catch (err) {
       console.error('Registration error:', err);
